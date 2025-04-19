@@ -1,0 +1,15 @@
+sourceLabel,sourceNodeType,targetLabel,targetNodeType,relationType
+石家庄市,places:City,阳泉市,places:City,毗邻
+石家庄市,places:City,保定市,places:City,毗邻
+邢台市,places:City,晋中市,places:City,毗邻
+藁城区,places:County,石家庄市,places:City,县、区级行政单位隶属于…市级行政单位
+宁晋县,places:County,邢台市,places:City,县、区级行政单位隶属于…市级行政单位
+易县,places:County,保定市,places:City,县、区级行政单位隶属于…市级行政单位
+冀中鼓吹乐-吹打班,ctm:MusicType,鹿泉区,places:County,分布地域
+冀中鼓吹乐-吹打班,ctm:MusicType,深泽县,places:County,分布地域
+河北音乐会-南乐会,ctm:MusicType,辛集市,places:County,分布地域
+坠子戏,ctm:MusicType,深泽县,places:County,分布地域
+河北省固安屈家营古乐资料集,ctm:SpecialIndependentResource,河北音乐会-北乐会,ctm:MusicType,特藏资源涉及乐种
+河北省屈家营音乐会重建二十四周年（打击乐篇）：屈家营“音乐圣会”世界音乐周专场音乐会,ctm:SpecialIndependentResource,河北音乐会-北乐会,ctm:MusicType,特藏资源涉及乐种
+"""2010春季学期艺术实践周——音乐学系晋中采风汇报""",ctm:SpecialIndependentResource,左权开花调,ctm:MusicType,特藏资源涉及乐种
+古如歌,ctm:SpecialIndependentResource,鄂尔多斯古如歌,ctm:MusicType,特藏资源涉及乐种
