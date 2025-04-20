@@ -52,14 +52,23 @@ The columns are defined as follows:
 - **Column 4**: Type of the target node  
 - **Column 5**: Type of the edge  
 
-Based on this typed edge list data, to construct a heterogeneous network graph, using python, please help me by providing the corresponding code
+Based on this "typed edge list" data, to construct a "heterogeneous network graph", using python, please help me by providing the corresponding code
 **Note**:
  (1) The direction of the arrows in the graph should point from the **source node** to the **target node**;
  (2) You may refer to networksx and matplotlib
- (3) Presume we import the complete CSV file named "csv.csv" from the python script
- (4) For node labels, try preventing overlap by either:
-    (4.1) Selectively displaying some labels, or
-    (4.2) Replacing dense labels with numbered identifiers and including a separate legend that maps numbers to their corresponding labels
- (5) Enhance visualization with:
-- Implement a force-directed (spring) layout model for optimal node positioning
-- Scale node sizes proportionally to their centrality values for visual emphasis of important nodes
+ (3) Assume we import the complete CSV file named "csv.csv" from the python script
+
+ (4) Enhance visualization with:
+   (4.1) Implement a force-directed (spring) layout model for optimal node positioning so that the distance may truely reflect the similarity or proximity
+   (4.2) Despite implementation of the force-directed (spring) layout model, this layout should both avoid nodes overlaping and minimize edge crossings
+   (4.3) Scale node sizes proportionally to their centrality values for visual emphasis of important nodes
+
+ (5) To prevent node label overlap while maintaining aforementioned visualization quality, follow these principles in order of preference:
+   (5.1) Display all node labels directly whenever possible
+   (5.2) When display space is limited, the font size of node labels can be appropriately reduced to avoid overlap
+   (5.3) Selectively omit labels only when nodes are too close or crowded
+   (5.4) When necessary, position labels at a comfortable distance from their nodes with connector lines to maintain clear association while preventing overlap
+   (5.5) As a last resort, replace labels in dense clusters with numbered identifiers and include a separate legend that maps these numbers to their corresponding labels; the numbered identifiers should also be positioned to avoid overlap, applying the same principles used for managing label placement
+   - In summary, use flexible approaches to manage size, positioning, and visibility based on the network's complexity
+
+   
