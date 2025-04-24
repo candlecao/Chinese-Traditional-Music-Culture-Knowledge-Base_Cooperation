@@ -1,0 +1,97 @@
+#Assertion for NameSpace
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### 2. Object Properties:
+ctm:hasShortNameOf rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf ctm:instrumentAlternateName ;
+                   rdfs:domain ctm:OrientalMusicalInstrument ;
+                   rdfs:range ctm:OrientalMusicalInstrument ;
+                   rdfs:comment "关联一个东方乐器的名称和它的简称" ;
+                   rdfs:label "简称" ;
+                   ctm:intactFragmentIdentifier "hasNameOfForShort" .
+
+ctm:hasVulgoNameOf rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf ctm:instrumentAlternateName ;
+                   rdfs:domain ctm:OrientalMusicalInstrument ;
+                   rdfs:range ctm:OrientalMusicalInstrument ;
+                   rdfs:comment "关联一个东方乐器的名称和它的俗称。俗称的反义词也可能是“雅称”，但是，雅称并不等同于专称" ;
+                   rdfs:label "俗称" .
+
+ctm:instrument_broaderTerm rdf:type owl:ObjectProperty ;
+                           rdfs:subPropertyOf cidoc-crm:P127_has_broader_term ;
+                           owl:inverseOf ctm:instrument_narrowerTerm ;
+                           rdfs:domain ctm:OrientalMusicalInstrument ;
+                           rdfs:range ctm:OrientalMusicalInstrument ;
+                           rdfs:label "东方乐器有…广义术语" .#往往指的就是其父类
+
+ctm:instrument_narrowerTerm rdf:type owl:ObjectProperty ;
+                            rdfs:label "东方乐器有…狭义术语" .#往往指的就是其子类
+
+ctm:instrumentAlternateName rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf skos:closeMatch ;
+                            rdfs:domain ctm:OrientalMusicalInstrument ;
+                            rdfs:range [ rdf:type rdfs:Datatype ;
+                                         owl:unionOf ( ctm:OrientalMusicalInstrument
+                                                       ctm:BlankNode_InstrumentAlternateName              
+                                                     )
+                                       ] ;
+                            rdfs:comment "关联一个乐器名和它的别称，主要用于东方乐器类。注意，一部分乐器别称记入在数据属性hasAlternateNameOf中。该属性不具有传递性、（通常）不具有对称性。传统乐器的别称具有的一个鲜明的特点是，在很多情况下，一个相对“普遍”的A（可姑且理解为优选名）别称为相对“罕称”的B，这已然意味着对象发生了某种改变，如形制到音响的变化，从而使得B成为从A中蜕变出的子类，所以，别称不仅不具有传递性，而且也不是对称属性，这和“音乐类型(乐种)别称”可能有所不同。例如，根据中国音乐学院静恩涛博士的观点：“三弦的一个别称是‘渤海琴’，而后者可能是当地的一种称谓，但当地人不大可能将渤海琴别称为三弦，很可能是因为渤海琴是从一般三弦衍变出的变种，即特殊类、‘子类’，甚或可能就是蜕变出的另一种乐器了——此情况须深入考究，或有争议。而这类情况通常揭示出学界一直以来规避的问题。”" ;
+                            rdfs:label "乐器别称(亦称)" .
+
+ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf ctm:instrumentAlternateName ;
+                         rdfs:domain ctm:OrientalMusicalInstrument ;
+                         rdfs:range ctm:OrientalMusicalInstrument ;
+                         rdfs:comment "关联一个东方乐器的名称和它的曾用名。曾经使用某名称，现在可能继续用，也可能不再用。参考《中国乐种学》p.251。注意将它区别于数据属性中的曾用名dbo:formerName：此处的对象属性指的是两个节点虽然存在“乐器曾用名”的语义关联，但二者本质上指代现实中的同一对象；数据属性中的曾用名则不然" ;
+                         rdfs:label "乐器曾用名" .
+
+skos:relatedMatch rdf:type owl:AnnotationProperty ;
+                  rdfs:comment "比如，在《中国乐器大词典》（应有勤）中，对于一个词条的解释，会用到\"参见\"这样的表述，即可能对应此属性" ;
+                  rdfs:label "与…相关" . 
+
+### 3. Data Properties:
+ctm:basisForNaming rdf:type owl:DatatypeProperty ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( ctm:MusicType
+                                               ctm:OrientalMusicalInstrument
+                                             )
+                               ] ;
+                   rdfs:range [ rdf:type rdfs:Datatype ;
+                                owl:unionOf ( [ rdf:type rdfs:Datatype ;
+                                                owl:oneOf ( "弦数"^^xsd:string
+                                                            "形状"^^xsd:string
+                                                            "族群"^^xsd:string
+                                                            "体积"^^xsd:string
+                                                            "地域"^^xsd:string
+                                                            "装潢材质"^^xsd:string
+                                                            "纹饰"^^xsd:string
+                                                            "演奏拨法"^^xsd:string
+                                                            "款式"^^xsd:string
+                                                            "材质"^^xsd:string
+                                                            "演奏方式"^^xsd:string
+                                                            "声部"^^xsd:string
+                                                            "发源地"^^xsd:string
+                                                            "功能"^^xsd:string
+                                                            "制式"^^xsd:string
+                                                            "构成"^^xsd:string
+                                                            "来源"^^xsd:string
+                                                          )
+                                              ]
+                                              xsd:string
+                                            )
+                              ] ;
+                   rdfs:label "以…为命名依据" .
+

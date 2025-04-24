@@ -1,0 +1,146 @@
+#Assertion for NameSpace
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+### 1. Classes:
+bf:Place rdf:type owl:Class ;
+         owl:equivalentClass cidoc-crm:E53_Place ;
+         rdfs:label "地域" ;
+         skos:definition "Geographic location" .
+
+ctm:BlankNode_InstrumentAlternateName rdf:type owl:Class ;
+                                      owl:equivalentClass [ rdf:type owl:Class ;
+                                                            owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty ctm:ethnicGroup ;
+                                                                                   owl:someValuesFrom dbpedia-owl:EthnicGroup
+                                                                                 ]
+                                                                                 [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty ctm:instrumentAlternateName ;
+                                                                                   owl:someValuesFrom ctm:OrientalMusicalInstrument                                                                             
+                                                                                 ]
+                                                                               )
+                                                          ] ;
+                                      rdfs:comment """作为属性“乐器别称”（ctm:instrumentAlternateName）值域的一部分。某些东方乐器被某民族(或族群)别称为……故须用此空节点，该空节点中必须有两个属性：（1）ctm:instrumentAlternateName（2）ctm:ethnicGroup。
+比如：
+（1）对于\"八角鼓\"，有这样的描述——\"白族地区亦称“金钱鼓”\"，相应的数据则处理成：
+<八角鼓> ctm:instrumentAlternateName [ctm:instrumentAlternateName <金钱鼓>;ctm:ethnicGroup <白族>] .
+（2）对于\"阿腊\"，有这样的描述——\"“土锣”的汉译名，壮族语音\"，相应的数据则处理成：
+<土锣> ctm:instrumentAlternateName [ctm:instrumentAlternateName <阿腊>;ctm:ethnicGroup <壮族>] .""" ;
+                                      rdfs:label "空节点_乐器别称" .
+
+ctm:BlowPipeInstrument rdf:type owl:Class ;
+                       rdfs:subClassOf ctm:ChineseInstrument ;
+                       rdfs:label "吹管类乐器" .
+
+ctm:BowedStringInstrument rdf:type owl:Class ;
+                          rdfs:subClassOf ctm:ChineseInstrument ;
+                          rdfs:label "拉弦类乐器" .
+
+ctm:ChineseInstrument rdf:type owl:Class ;
+                      rdfs:subClassOf ctm:OrientalMusicalInstrument ;
+                      rdfs:label "中华民族乐器" .
+
+ctm:OrientalMusicalInstrument rdfs:subClassOf mo:Instrument ;
+                              rdfs:label "东方乐器" .
+
+ctm:PercussionMusicalInstrument rdf:type owl:Class ;
+                                rdfs:subClassOf ctm:ChineseInstrument ;
+                                rdfs:label "打击类乐器" .
+
+ctm:PluckedStringInstrument rdf:type owl:Class ;
+                            rdfs:subClassOf ctm:ChineseInstrument ;
+                            rdfs:label "弹弦类乐器" .
+
+dbpedia-owl:EthnicGroup rdf:type owl:Class ;
+                        rdfs:subClassOf cidoc-crm:E55_Type ;
+                        rdfs:comment "EthnicGroup" ,
+                                     "根据论文《非物质文化遗产本体构建与语义化组织研究》（《数字图书馆论坛》，2014）中关于类型（Type）的陈述：类型（Type）实体主要应用于非遗知识元素分类体系的构建，其类别实例可以依据不同的分类准则进行定义，可以来源于各类受控词表，也可以依据不同的分类体系来定义，如依据我国《非物质文化遗产名录》将非遗分为民间文学、【民间音乐】、传统医药、民俗等十大类，依据非遗的【民族】特性又可划分汉族、土家族、苗族等类别。类别实例之间还可以利用类属性crm:has border term进行层级关系的搭建，建立一个多视角、多层次、灵活的分类体系，其他类实体可分别构建与类型实体的映射关系" ;
+                        rdfs:label "民族(或族群)" .
+
+
+### 2. Object Properties:
+bf:place rdf:type owl:ObjectProperty ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf ( bf:MusicInstrument
+                                     ctm:MusicType
+                                   )
+                     ] ;
+         rdfs:range [ rdf:type rdfs:Datatype ;
+                      owl:unionOf ( bf:Place
+                                    [ rdf:type owl:Class ]
+                                  )
+                    ] ;
+         owl:propertyDisjointWith event:place ;
+         rdfs:label "分布地域" .
+
+ctm:ethnicGroup rdf:type owl:ObjectProperty ;
+                owl:inverseOf ctm:representativeInstrument ,
+                              ctm:representativeMusicType ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( ctm:MusicType
+                                            ctm:OrientalMusicalInstrument
+                                          )
+                            ] ;
+                rdfs:range dbpedia-owl:EthnicGroup ;
+                rdfs:label "对应…族群(民族)" .
+
+ctm:instrumentEvolvesFrom rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf bf:derivativeOf ;
+                          rdfs:domain mo:Instrument ;
+                          rdfs:range mo:Instrument ;
+                          rdfs:comment "包括改良乐器的情况" ;
+                          rdfs:label "乐器由…衍变而成" .
+
+ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf ctm:instrumentAlternateName ;
+                         rdfs:domain ctm:OrientalMusicalInstrument ;
+                         rdfs:range ctm:OrientalMusicalInstrument ;
+                         rdfs:comment "关联一个东方乐器的名称和它的曾用名。曾经使用某名称，现在可能继续用，也可能不再用。参考《中国乐种学》p.251。注意将它区别于数据属性中的曾用名dbo:formerName：此处的对象属性指的是两个节点虽然存在“乐器曾用名”的语义关联，但二者本质上指代现实中的同一对象；数据属性中的曾用名则不然" ;
+                         rdfs:label "乐器曾用名" .
+
+dcterms:isPartOf rdf:type owl:ObjectProperty ;
+                 rdfs:comment "This property is intended to be used with non-literal values. This property is an inverse property of Has Part." ,
+                              "暂不须声明其Transitive特征，而其子属性gn:parentFeature是具有传递性的" ;
+                 rdfs:label "是…的一部分" ;
+                 owl:incompatibleWith "http://id.loc.gov/ontologies/bibframe/partOf" ;
+                 skos:definition """A related resource in which the described resource is physically or logically included.
+物理上或逻辑上的“整—部”关系""" .
+
+skos:relatedMatch rdf:type owl:AnnotationProperty ;
+                  rdfs:comment "比如，在《中国乐器大词典》（应有勤）中，对于一个词条的解释，会用到\"参见\"这样的表述，即可能对应此属性" ;
+                  rdfs:label "与…相关" . 
+
+### 3. Data Properties:
+ctm:acousticClassification rdf:type owl:DatatypeProperty ;
+                           rdfs:domain mo:Instrument ;
+                           rdfs:range rdfs:Literal ;
+                           rdfs:comment "指一件乐器根据霍萨分类法对应的分类类目，霍萨分类法是一种声学角度的分类方法。参考《中国乐种学》p.254。对于声学分类，可能存在同一乐器名但指代不同乐器的情况，就此，当两种（或更多种）乐器的声学分类也不一致时，之间用“/”隔开；也有可能一种乐器本身就可归属于两种声学分类，也用“/”隔开" ;
+                           rdfs:label "声学分类" .
+
+ctm:historicalPeriod rdf:type owl:DatatypeProperty ;
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( ctm:MusicType
+                                                 ctm:OrientalMusicalInstrument
+                                               )
+                                 ] ;
+                     rdfs:range rdfs:Literal ;
+                     rdfs:label "名称对应的历史时期" .
+
+ctm:representativePiece rdf:type owl:DatatypeProperty ;
+                        rdfs:domain [ rdf:type owl:Class ;
+                                      owl:unionOf ( ctm:MusicType
+                                                    ctm:OrientalMusicalInstrument
+                                                  )
+                                    ] ;
+                        rdfs:range rdfs:Literal ;
+                        rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示）。除了曲目、剧目外，还可针对说唱音乐中的说书等形式，还可以对应书目类" ;
+                        rdfs:label "有代表曲目或剧目" .
