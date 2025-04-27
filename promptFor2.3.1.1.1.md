@@ -64,11 +64,11 @@ Based on this "typed edge list" data, to construct a "heterogeneous network grap
    (4.3) Scale node sizes proportionally to their centrality values for visual emphasis of important nodes
 
  (5) To prevent node label overlap while maintaining aforementioned visualization quality, follow these principles in order of preference:
-   (5.1) Display all node labels directly whenever possible
-   (5.2) When display space is limited, the font size of node labels can be appropriately reduced to avoid overlap
-   (5.3) Selectively omit labels only when nodes are too close or crowded
-   (5.4) When necessary, position labels at a comfortable distance from their nodes with connector lines to maintain clear association while preventing overlap
-   (5.5) As a last resort, replace labels in dense clusters with numbered identifiers and include a separate legend that maps these numbers to their corresponding labels; the numbered identifiers should also be positioned to avoid overlap, applying the same principles used for managing label placement
+   (5.1) Display all node labels directly whenever possible.
+   (5.2) When display space is limited, the font size of node labels can be appropriately reduced to avoid overlap.
+   (5.3) Selectively omit labels only when nodes are too close or crowded, then refer to (5.5).
+   (5.4) When necessary, position labels at a comfortable distance from their nodes with connector lines to maintain clear association while preventing overlap.
+   (5.5) As a last resort, replace labels in dense clusters with numbered identifiers and include a separate legend that maps these numbers to their corresponding labels; the numbered identifiers should also be positioned to avoid overlap, applying the same principles used for managing label placement.
    - In summary, use flexible approaches to manage size, positioning, and visibility based on the network's complexity
 
    
